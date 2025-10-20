@@ -164,32 +164,32 @@ export const menuItems = [
           </svg>
         ),
       },
-      // {
-      //   name: "Meal Report",
-      //   path: "/report/meal",
-      //   icon: (
-      //     <svg
-      //       xmlns="http://www.w3.org/2000/svg"
-      //       viewBox="0 0 24 24"
-      //       strokeWidth="2"
-      //       stroke="currentColor"
-      //       fill="none"
-      //       strokeLinecap="round"
-      //       strokeLinejoin="round"
-      //       className="inline-block w-5 h-5 my-1.5"
-      //     >
-      //       {/* Plate */}
-      //       <circle cx="12" cy="12" r="8" />
-      //       {/* Fork */}
-      //       <line x1="10" y1="8" x2="10" y2="16" />
-      //       <line x1="9" y1="8" x2="11" y2="8" />
-      //       <line x1="9" y1="16" x2="11" y2="16" />
-      //       {/* Knife */}
-      //       <line x1="14" y1="8" x2="14" y2="16" />
-      //       <line x1="13" y1="8" x2="15" y2="8" />
-      //     </svg>
-      //   ),
-      // },
+      {
+        name: "Meal Report",
+        path: "/report/payment",
+        icon: (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="inline-block w-5 h-5 my-1.5"
+          >
+            {/* Plate */}
+            <circle cx="12" cy="12" r="8" />
+            {/* Fork */}
+            <line x1="10" y1="8" x2="10" y2="16" />
+            <line x1="9" y1="8" x2="11" y2="8" />
+            <line x1="9" y1="16" x2="11" y2="16" />
+            {/* Knife */}
+            <line x1="14" y1="8" x2="14" y2="16" />
+            <line x1="13" y1="8" x2="15" y2="8" />
+          </svg>
+        ),
+      },
     ],
   },
 ];

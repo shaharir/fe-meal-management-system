@@ -1,85 +1,48 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FaCalendarAlt } from "react-icons/fa";
-import { useGetBorderReportQuery } from "../../../lib/redux/services/report/report.service";
 import Table from "../../../components/table/table";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { modalOpenClose } from "../../../components/helper/modalOpenCllose";
-import PaymentModal from "./action/PaymentModal";
+import { useGetPaymentQuery } from "../../../lib/redux/services/payment/payment.service";
+import { useGetBorderQuery } from "../../../lib/redux/services/border/border.service";
+import { convertToObject } from "../../../components/helper/convertToObject";
 
-const BorderReport = () => {
+const PaymentReport = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
-  const [borderData, setBorderData] = useState("");
   const pagination = `?size=${pageSize}&page=${pageIndex}`;
   const value = `${pagination}${
     search ? `&search=${encodeURIComponent(search)}` : ""
   }`;
+  const { borderObject } = useGetBorderQuery("", {
+    selectFromResult: ({ data }) => ({
+      borderObject: convertToObject(data?.data),
+    }),
+  });
+  const { data: paymentReport, isError, isLoading } = useGetPaymentQuery();
 
-  const {
-    data: borderReport,
-    isError,
-    isLoading,
-  } = useGetBorderReportQuery(value);
-  const handelPayment = (row) => {
-    modalOpenClose("payment_modal", true);
-    setBorderData(row.original);
-  };
-
-  const data = useMemo(() => borderReport?.data || [], [borderReport?.data]);
+  const data = useMemo(() => paymentReport || [], [paymentReport]);
 
   const columns = useMemo(
     () => [
       {
-        header: "Action",
-        cell: ({ row }) => {
-          const amount = row?.original?.amount;
-          const totalCost = row?.original?.totalCost;
-          const totalAmountPaid = amount - totalCost;
-
-          return (
-            <div className="dropdown dropdown-start">
-              <div tabIndex={0} role="button" className="cursor-pointer m-1">
-                <HiDotsHorizontal />
-              </div>
-              <ul
-                tabIndex="-1"
-                className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-              >
-                {totalAmountPaid < 0 && (
-                  <li>
-                    <button onClick={() => handelPayment(row)}>Payment</button>
-                  </li>
-                )}
-              </ul>
-            </div>
-          );
-        },
-      },
-      {
         header: "SI",
         cell: (info) => info.row.index + 1,
       },
-      {
-        accessorKey: "name",
-        header: "Name",
-      },
       { accessorKey: "createdAt", header: "Date" },
-      { accessorKey: "mealCount", header: "Meal Count" },
-      { accessorKey: "amount", header: "Amount" },
-      { accessorKey: "totalCost", header: "Total Cost" },
       {
-        accessorKey: "return",
-        header: "Return Amount",
+        accessorKey: "border",
+        header: "Border",
         cell: ({ row }) => {
-          const { amount, totalCost } = row.original;
-          const returnAmount = (amount ?? 0) - (totalCost ?? 0);
-          return <span>{returnAmount?.toFixed(2)}</span>;
+          const borderId = row.original.border;
+
+          return <span>{borderObject?.[borderId]?.name}</span>;
         },
       },
-      { accessorKey: "status", header: "Status" },
+
+      { accessorKey: "amount", header: "Amount" },
+
       {
         accessorKey: "note",
         header: "Note",
@@ -92,7 +55,7 @@ const BorderReport = () => {
         },
       },
     ],
-    []
+    [borderObject]
   );
 
   if (isLoading)
@@ -113,9 +76,9 @@ const BorderReport = () => {
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h1 className="text-xl font-semibold">Border Report</h1>
+        <h1 className="text-xl font-semibold">Payment Report</h1>
 
-        <div className="flex flex-wrap gap-4 mt-2 md:mt-0">
+        {/* <div className="flex flex-wrap gap-4 mt-2 md:mt-0">
           <div className="rounded-lg px-4 py-2 shadow-sm">
             <span className="text-sm">Total Collection</span>
             <p className="text-lg font-semibold">{borderReport?.totalAmount}</p>
@@ -130,7 +93,7 @@ const BorderReport = () => {
               {borderReport?.amountPerMeal?.toFixed(2)}
             </p>
           </div>
-        </div>
+        </div> */}
         {/* Filters */}
         <div className="flex flex-col md:flex-row gap-2">
           <div className="flex items-center gap-2 border rounded-lg px-3 py-1.5 shadow-sm">
@@ -183,9 +146,8 @@ const BorderReport = () => {
           setPageSize={setPageSize}
         />
       </div>
-      <PaymentModal {...{ borderData: borderData }} />
     </div>
   );
 };
 
-export default BorderReport;
+export default PaymentReport;

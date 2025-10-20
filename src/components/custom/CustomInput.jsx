@@ -7,6 +7,7 @@ const CustomInput = ({
   type = "text",
   options = [],
   error,
+  disabled = false,
 }) => {
   return (
     <div className="form-control w-full">
@@ -32,6 +33,7 @@ const CustomInput = ({
                   type={type}
                   className={finalClasses}
                   placeholder={`Enter ${label || name}`}
+                  disabled={disabled}
                 />
                 {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
               </>

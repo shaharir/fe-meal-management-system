@@ -4,6 +4,7 @@ import DashBoard from "../pages/private/Dashboard";
 import Deposit from "../pages/private/deposit";
 import Meal from "../pages/private/meal";
 import BorderReport from "../pages/private/report/BorderReport";
+import PaymentReport from "../pages/private/report/PaymentReport";
 
 const PrivateRoutes = [
   {
@@ -27,6 +28,7 @@ const PrivateRoutes = [
 
   { path: "/deposit", element: <Deposit /> },
   { path: "/report/border", element: <BorderReport /> },
+  { path: "/report/payment", element: <PaymentReport /> },
 ];
 
 export default PrivateRoutes;
