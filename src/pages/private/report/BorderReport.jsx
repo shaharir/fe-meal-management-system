@@ -35,7 +35,7 @@ const BorderReport = () => {
         cell: ({ row }) => {
           const { amount, totalCost } = row.original;
           const returnAmount = (amount ?? 0) - (totalCost ?? 0);
-          return <span>{returnAmount.toFixed(2)}</span>;
+          return <span>{returnAmount?.toFixed(2)}</span>;
         },
       },
       {
@@ -85,7 +85,7 @@ const BorderReport = () => {
           <div className="rounded-lg px-4 py-2 shadow-sm">
             <span className="text-sm">Amount per Meal</span>
             <p className="text-lg font-semibold">
-              {borderReport?.amountPerMeal.toFixed(2)}
+              {borderReport?.amountPerMeal?.toFixed(2)}
             </p>
           </div>
         </div>
