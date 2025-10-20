@@ -62,9 +62,7 @@ const Sidebar = () => {
                               onClick={() => navigate(child.path)}
                             >
                               {child.icon}
-                              <span className="is-drawer-close:hidden">
-                                {child.name}
-                              </span>
+                              {child.name}
                             </button>
                           </li>
                         ))}

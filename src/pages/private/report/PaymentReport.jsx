@@ -37,7 +37,13 @@ const PaymentReport = () => {
         cell: ({ row }) => {
           const borderId = row.original.border;
 
-          return <span>{borderObject?.[borderId]?.name}</span>;
+          return (
+            <>
+              <span>{borderObject?.[borderId]?.name}</span>
+              <br />
+              <span>{borderObject?.[borderId]?.mobile}</span>
+            </>
+          );
         },
       },
 
