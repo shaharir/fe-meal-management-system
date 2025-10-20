@@ -103,9 +103,27 @@ export const menuItems = [
     ),
   },
 
+  // {
+  //   name: "Report",
+  //   path: "/report",
+  //   icon: (
+  //     <svg
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       viewBox="0 0 24 24"
+  //       strokeWidth="2"
+  //       stroke="currentColor"
+  //       fill="none"
+  //       strokeLinecap="round"
+  //       strokeLinejoin="round"
+  //       className="inline-block size-4 my-1.5"
+  //     >
+  //       <path d="M3 3h18v18H3z" />
+  //       <path d="M7 14l3-3 2 2 4-4" />
+  //     </svg>
+  //   ),
+  // },
   {
     name: "Report",
-    path: "/report",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -121,5 +139,57 @@ export const menuItems = [
         <path d="M7 14l3-3 2 2 4-4" />
       </svg>
     ),
+    children: [
+      {
+        name: "Border Report",
+        path: "/report/border",
+        icon: (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="inline-block w-5 h-5 my-1.5"
+          >
+            {/* Document outline */}
+            <path d="M4 3h16v18H4z" />
+            {/* Checkmark */}
+            <path d="M7 14l3-3 2 2 4-4" />
+            {/* Text lines */}
+            <line x1="7" y1="7" x2="17" y2="7" />
+            <line x1="7" y1="10" x2="17" y2="10" />
+          </svg>
+        ),
+      },
+      // {
+      //   name: "Meal Report",
+      //   path: "/report/meal",
+      //   icon: (
+      //     <svg
+      //       xmlns="http://www.w3.org/2000/svg"
+      //       viewBox="0 0 24 24"
+      //       strokeWidth="2"
+      //       stroke="currentColor"
+      //       fill="none"
+      //       strokeLinecap="round"
+      //       strokeLinejoin="round"
+      //       className="inline-block w-5 h-5 my-1.5"
+      //     >
+      //       {/* Plate */}
+      //       <circle cx="12" cy="12" r="8" />
+      //       {/* Fork */}
+      //       <line x1="10" y1="8" x2="10" y2="16" />
+      //       <line x1="9" y1="8" x2="11" y2="8" />
+      //       <line x1="9" y1="16" x2="11" y2="16" />
+      //       {/* Knife */}
+      //       <line x1="14" y1="8" x2="14" y2="16" />
+      //       <line x1="13" y1="8" x2="15" y2="8" />
+      //     </svg>
+      //   ),
+      // },
+    ],
   },
 ];

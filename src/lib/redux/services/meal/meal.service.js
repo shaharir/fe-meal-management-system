@@ -1,24 +1,24 @@
 import { apiService } from "../apiService";
 
-export const bazarService = apiService.injectEndpoints({
+export const borderService = apiService.injectEndpoints({
   endpoints: (builder) => ({
-    getBazar: builder.query({
+    getMeal: builder.query({
       query: (pagination) => ({
-        url: `/bazar${pagination}`,
+        url: `/meal${pagination}`,
         method: "GET",
       }),
     }),
-    createBazar: builder.mutation({
+    createMeal: builder.mutation({
       query: (postBody) => ({
-        url: "/bazar",
+        url: "/meal",
         method: "POST",
         body: postBody,
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         // Optimistic update
         const patchResult = dispatch(
-          apiService.util.updateQueryData("getBazar", undefined, (draft) => {
-            draft.push(arg);
+          apiService.util.updateQueryData("getMeal", undefined, (draft) => {
+            draft.push(arg); // push the new border to cache
           })
         );
 
@@ -26,7 +26,7 @@ export const bazarService = apiService.injectEndpoints({
           const { data: createdBorder } = await queryFulfilled;
           // Replace the optimistic entry with the actual created border from server
           dispatch(
-            apiService.util.updateQueryData("getBazar", undefined, (draft) => {
+            apiService.util.updateQueryData("getMeal", undefined, (draft) => {
               const index = draft.findIndex((b) => b === arg);
               if (index !== -1) draft[index] = createdBorder;
             })
@@ -39,4 +39,4 @@ export const bazarService = apiService.injectEndpoints({
   }),
 });
 
-export const { useCreateBazarMutation, useGetBazarQuery } = bazarService;
+export const { useCreateMealMutation, useGetMealQuery } = borderService;

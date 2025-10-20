@@ -1,8 +1,8 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { menuItems } from "./menu";
 import { Outlet, useNavigate } from "react-router";
 import ThemeToggle from "./TheamToogle";
+import { Fragment } from "react";
 
 const Sidebar = () => {
   const profile = useSelector((state) => state.profile.user);
@@ -23,7 +23,7 @@ const Sidebar = () => {
           ></label>
           <div className="is-drawer-close:w-14 is-drawer-open:w-64 bg-base-200 flex flex-col items-start min-h-full">
             <ul className="menu w-full grow gap-4">
-              {menuItems.map((item, index) => (
+              {/* {menuItems.map((item, index) => (
                 <li key={index}>
                   <button
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -34,6 +34,58 @@ const Sidebar = () => {
                     <span className="is-drawer-close:hidden">{item.name}</span>
                   </button>
                 </li>
+              ))} */}
+              {menuItems.map((item, index) => (
+                <Fragment key={index}>
+                  {item?.children ? (
+                    // Dropdown menu
+                    <li className="dropdown dropdown-start">
+                      <button
+                        tabIndex={0}
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 w-full px-3 py-1.5 rounded-md hover:bg-gray-100"
+                        data-tip={item.name}
+                      >
+                        {item.icon}
+                        <span className="is-drawer-close:hidden">
+                          {item.name}
+                        </span>
+                      </button>
+                      <ul
+                        tabIndex="-1"
+                        className="dropdown-content menu bg-base-100 rounded-box mt-1 shadow-sm w-52"
+                      >
+                        {item.children.map((child, cIndex) => (
+                          <li key={cIndex}>
+                            <button
+                              className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 py-1.5 rounded-md hover:bg-gray-100"
+                              data-tip={child.name}
+                              onClick={() => navigate(child.path)}
+                            >
+                              {child.icon}
+                              <span className="is-drawer-close:hidden">
+                                {child.name}
+                              </span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ) : (
+                    // Single menu item
+                    <li>
+                      <button
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 w-full px-3 py-1.5 rounded-md hover:bg-gray-100"
+                        data-tip={item.name}
+                        onClick={() => navigate(item.path)}
+                      >
+                        {item.icon}
+                        <span className="is-drawer-close:hidden">
+                          {item.name}
+                        </span>
+                      </button>
+                    </li>
+                  )}
+                </Fragment>
               ))}
             </ul>
             {/* profile */}

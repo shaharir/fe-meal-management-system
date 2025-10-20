@@ -1,34 +1,31 @@
-import React from "react";
-import { modalOpenClose } from "../../../components/helper/modalOpenCllose";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import CustomInput from "../../../components/custom/CustomInput";
+import { modalOpenClose } from "../../../components/helper/modalOpenCllose";
 import { useGetBorderQuery } from "../../../lib/redux/services/border/border.service";
 import { convertToOptions } from "../../../components/helper/convertToObject";
-import { useCreateBazarMutation } from "../../../lib/redux/services/bazar/bazar.service";
+import CustomInput from "../../../components/custom/CustomInput";
+import { useCreateMealMutation } from "../../../lib/redux/services/meal/meal.service";
 
 // Yup schema
 const schema = yup.object().shape({
   border: yup.string().required("Border is required"),
   date: yup.string().required("Date is required"),
-  amount: yup.number().required("Amount No is required"),
-  roomNo: yup.string().required("Room No is required"),
+  mealCount: yup.number().required("Meal count is required"),
   note: yup.string(),
 });
 
 const defaultValues = {
   border: "",
   date: new Date().toISOString(),
-  roomNo: "",
+  mealCount: 0,
   note: "",
-  amount: "",
 };
 
-const BazarCreateUpdate = ({ setCreateBorder }) => {
-  const [createBorder] = useCreateBazarMutation();
+const MealCreateUpdate = () => {
+  const [createMeal] = useCreateMealMutation();
   const handleClose = () => {
-    modalOpenClose("bazar_modal", false);
+    modalOpenClose("meal_modal", false);
   };
 
   const { borderObject } = useGetBorderQuery("", {
@@ -47,7 +44,7 @@ const BazarCreateUpdate = ({ setCreateBorder }) => {
   });
 
   const onSubmit = async (data) => {
-    const res = await createBorder(data);
+    const res = await createMeal(data);
     // if (res.data.code == 200) {
     handleClose();
     reset();
@@ -55,11 +52,11 @@ const BazarCreateUpdate = ({ setCreateBorder }) => {
   };
 
   return (
-    <dialog id="bazar_modal" className="modal modal-end">
+    <dialog id="meal_modal" className="modal modal-end">
       <div className="modal-box w-11/12 max-w-3xl mt-4">
         <div className="flex justify-between">
           <h3 className="font-bold text-lg text-primary">
-            Create / Update Bazar
+            Create / Update Meal
           </h3>
           <button
             type="button"
@@ -96,20 +93,11 @@ const BazarCreateUpdate = ({ setCreateBorder }) => {
             <div className="flex gap-4 mt-4">
               <CustomInput
                 control={control}
-                name="roomNo"
-                label="Room No"
-                type="text"
-                error={errors.roomNo?.message}
-              />
-              <CustomInput
-                control={control}
-                name="amount"
-                label="Amount"
+                name="mealCount"
+                label="Meal Count"
                 type="number"
                 error={errors.amount?.message}
               />
-            </div>
-            <div className="flex gap-4 mt-4">
               <CustomInput
                 control={control}
                 name="note"
@@ -131,4 +119,4 @@ const BazarCreateUpdate = ({ setCreateBorder }) => {
   );
 };
 
-export default BazarCreateUpdate;
+export default MealCreateUpdate;

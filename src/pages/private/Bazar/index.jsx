@@ -24,6 +24,10 @@ const Bazar = () => {
   const columns = useMemo(
     () => [
       {
+        header: "SI",
+        cell: (info) => info.row.index + 1,
+      },
+      {
         accessorKey: "border",
         header: "Border",
         cell: ({ row }) => {

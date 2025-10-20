@@ -37,20 +37,39 @@ const CustomInput = ({
               </>
             );
           }
+          // if (type === "date") {
+          //   return (
+          //     <div className="w-full">
+          //       <label className="block text-sm font-medium text-gray-700"></label>
+          //       <input
+          //         type="date"
+          //         value={field.value || ""}
+          //         onChange={(e) => field.onChange(e.target.value)}
+          //         className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all"
+          //       />
+          //       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+          //     </div>
+          //   );
+          // }
           if (type === "date") {
             return (
-              <>
-                <label className="label cursor-pointer justify-start gap-3">
-                  {/* <span className="label-text">{label}</span> */}
-                  <input
-                    type="date"
-                    value={field.value || ""}
-                    onChange={(e) => field.onChange(e.target.value)}
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                </label>
+              <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700"></label>
+                <input
+                  type="date"
+                  value={
+                    field.value
+                      ? new Date(field.value).toISOString().split("T")[0]
+                      : ""
+                  }
+                  onChange={(e) => {
+                    const isoDate = new Date(e.target.value).toISOString();
+                    field.onChange(isoDate);
+                  }}
+                  className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all"
+                />
                 {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-              </>
+              </div>
             );
           }
 

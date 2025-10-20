@@ -27,6 +27,10 @@ const Border = () => {
 
   const columns = useMemo(
     () => [
+      {
+        header: "SI",
+        cell: (info) => info.row.index + 1,
+      },
       { accessorKey: "name", header: "Name" },
       { accessorKey: "mobile", header: "Mobile" },
       { accessorKey: "roomNo", header: "Room No" },
