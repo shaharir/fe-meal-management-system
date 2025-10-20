@@ -165,7 +165,7 @@ export const menuItems = [
         ),
       },
       {
-        name: "Meal Report",
+        name: "Payment Report",
         path: "/report/payment",
         icon: (
           <svg

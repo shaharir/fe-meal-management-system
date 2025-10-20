@@ -5,6 +5,7 @@ import { convertToObject } from "../../../components/helper/convertToObject";
 import Table from "../../../components/table/table";
 import { useGetDepositQuery } from "../../../lib/redux/services/deposit/deposit.service";
 import DepositCreateUpdate from "./DepositCreateUpdate";
+import { DateFormat } from "../../../components/helper/dateFormat";
 
 const Deposit = () => {
   const [pageIndex, setPageIndex] = useState(1);
@@ -48,7 +49,13 @@ const Deposit = () => {
           );
         },
       },
-      { accessorKey: "date", header: "Date" },
+      {
+        accessorKey: "date",
+        header: "Date",
+        cell: ({ row }) => {
+          return DateFormat({ date: row?.original?.date, showTime: true });
+        },
+      },
       { accessorKey: "amount", header: "Amount" },
       {
         accessorKey: "note",

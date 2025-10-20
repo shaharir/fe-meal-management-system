@@ -6,7 +6,15 @@ import Table from "../../../components/table/table";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { modalOpenClose } from "../../../components/helper/modalOpenCllose";
 import PaymentModal from "./action/PaymentModal";
-
+import { DateFormat } from "../../../components/helper/dateFormat";
+import CustomInput from "../../../components/custom/CustomInput";
+import { useForm } from "react-hook-form";
+import ReturnAmountModal from "./action/RrturnAmountModal";
+const statusOptions = [
+  { label: "Active", value: "ACTIVE" },
+  { label: "In-Active", value: "INACTIVE" },
+  { label: "Partial", value: "Partial" },
+];
 const BorderReport = () => {
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(50);
@@ -27,7 +35,16 @@ const BorderReport = () => {
     modalOpenClose("payment_modal", true);
     setBorderData(row.original);
   };
-
+  const handelReturnAmount = (row) => {
+    modalOpenClose("return_amount_modal", true);
+    setBorderData(row.original);
+  };
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const data = useMemo(() => borderReport?.data || [], [borderReport?.data]);
 
   const columns = useMemo(
@@ -53,6 +70,13 @@ const BorderReport = () => {
                     <button onClick={() => handelPayment(row)}>Payment</button>
                   </li>
                 )}
+                {totalAmountPaid > 0 && (
+                  <li>
+                    <button onClick={() => handelReturnAmount(row)}>
+                      Return Amount
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           );
@@ -66,7 +90,17 @@ const BorderReport = () => {
         accessorKey: "name",
         header: "Name",
       },
-      { accessorKey: "createdAt", header: "Date" },
+      {
+        accessorKey: "createdAt",
+        header: "Date",
+        cell: ({ row }) => {
+          return (
+            <span>
+              {DateFormat({ date: row?.original?.createdAt, showTime: true })}
+            </span>
+          );
+        },
+      },
       { accessorKey: "mealCount", header: "Meal Count" },
       { accessorKey: "amount", header: "Amount" },
       { accessorKey: "totalCost", header: "Total Cost" },
@@ -79,7 +113,37 @@ const BorderReport = () => {
           return <span>{returnAmount?.toFixed(2)}</span>;
         },
       },
-      { accessorKey: "status", header: "Status" },
+      // { accessorKey: "status", header: "Status" },
+      {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => {
+          const status = row.original.status?.toUpperCase();
+
+          const getStatusColor = (status) => {
+            switch (status) {
+              case "PAID":
+                return "bg-green-100 text-green-700";
+              case "PARTIAL":
+                return "bg-yellow-100 text-yellow-700";
+              case "UNPAID":
+                return "bg-red-100 text-red-700";
+              default:
+                return "bg-gray-100 text-gray-700";
+            }
+          };
+
+          return (
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                status
+              )}`}
+            >
+              {status || "N/A"}
+            </span>
+          );
+        },
+      },
       {
         accessorKey: "note",
         header: "Note",
@@ -148,27 +212,6 @@ const BorderReport = () => {
               className="outline-none w-full"
             />
           </div>
-
-          <div className="flex items-center gap-2 border rounded-lg px-3 py-1.5 shadow-sm">
-            <FaCalendarAlt className="" />
-            <input
-              type="date"
-              //   value={dateRange.from}
-              //   onChange={(e) =>
-              //     setDateRange((prev) => ({ ...prev, from: e.target.value }))
-              //   }
-              className="outline-none"
-            />
-            <span>-</span>
-            <input
-              type="date"
-              //   value={dateRange.to}
-              //   onChange={(e) =>
-              //     setDateRange((prev) => ({ ...prev, to: e.target.value }))
-              //   }
-              className="outline-none"
-            />
-          </div>
         </div>
       </div>
 
@@ -184,6 +227,7 @@ const BorderReport = () => {
         />
       </div>
       <PaymentModal {...{ borderData: borderData }} />
+      <ReturnAmountModal {...{ borderData: borderData }} />
     </div>
   );
 };

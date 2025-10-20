@@ -5,6 +5,7 @@ import { useGetBorderQuery } from "../../../lib/redux/services/border/border.ser
 import { convertToObject } from "../../../components/helper/convertToObject";
 import { modalOpenClose } from "../../../components/helper/modalOpenCllose";
 import BazarCreateUpdate from "./BazarCreateUpdate";
+import { DateFormat } from "../../../components/helper/dateFormat";
 
 const Bazar = () => {
   const [pageIndex, setPageIndex] = useState(1);
@@ -36,7 +37,13 @@ const Bazar = () => {
           return <span>{borderObject?.[borderId]?.name}</span>;
         },
       },
-      { accessorKey: "date", header: "Date" },
+      {
+        accessorKey: "date",
+        header: "Date",
+        cell: ({ row }) => {
+          return DateFormat({ date: row?.original?.date, showTime: true });
+        },
+      },
       { accessorKey: "roomNo", header: "Room No" },
       { accessorKey: "amount", header: "Amount" },
       { accessorKey: "note", header: "Note" },

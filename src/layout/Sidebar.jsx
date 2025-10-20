@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { menuItems } from "./menu";
-import { Outlet, useNavigate } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import ThemeToggle from "./TheamToogle";
 import { Fragment } from "react";
 
@@ -58,7 +58,7 @@ const Sidebar = () => {
                           <li key={cIndex}>
                             <button
                               className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 py-1.5 rounded-md hover:bg-gray-100"
-                              data-tip={child.name}
+                              // data-tip={child.name}
                               onClick={() => navigate(child.path)}
                             >
                               {child.icon}
@@ -91,18 +91,18 @@ const Sidebar = () => {
               className="m-2 is-drawer-close:tooltip is-drawer-close:tooltip-right"
               data-tip="Profile"
             >
-              <label
-                htmlFor="profile-modal"
+              <Link
+                to="/profile"
                 className="btn btn-ghost btn-circle drawer-button relative"
               >
                 <div className="avatar avatar-online avatar-placeholder">
                   <div className="bg-neutral text-neutral-content w-10 rounded-full">
                     <span className="text-sm font-semibold">
-                      {profile?.name.slice(0, 2)}
+                      {profile?.name?.slice(0, 2)?.toUpperCase()}
                     </span>
                   </div>
                 </div>
-              </label>
+              </Link>
             </div>
             {/* theme controller */}
             <ThemeToggle />

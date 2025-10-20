@@ -5,6 +5,7 @@ import { modalOpenClose } from "../../../components/helper/modalOpenCllose";
 import Table from "../../../components/table/table";
 import { useGetMealQuery } from "../../../lib/redux/services/meal/meal.service";
 import MealCreateUpdate from "./MealCreateUpdate";
+import { DateFormat } from "../../../components/helper/dateFormat";
 
 const Meal = () => {
   const [pageIndex, setPageIndex] = useState(1);
@@ -44,7 +45,13 @@ const Meal = () => {
           );
         },
       },
-      { accessorKey: "date", header: "Date" },
+      {
+        accessorKey: "date",
+        header: "Date",
+        cell: ({ row }) => {
+          return DateFormat({ date: row?.original?.date, showTime: true });
+        },
+      },
       { accessorKey: "mealCount", header: "Meal Count" },
       {
         accessorKey: "note",

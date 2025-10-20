@@ -3,8 +3,8 @@ import { apiService } from "../apiService";
 export const paymentService = apiService.injectEndpoints({
   endpoints: (builder) => ({
     getPayment: builder.query({
-      query: () => ({
-        url: `/payment`,
+      query: (value) => ({
+        url: `/payment/${value}`,
         method: "GET",
       }),
     }),

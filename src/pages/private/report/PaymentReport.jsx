@@ -5,6 +5,7 @@ import Table from "../../../components/table/table";
 import { useGetPaymentQuery } from "../../../lib/redux/services/payment/payment.service";
 import { useGetBorderQuery } from "../../../lib/redux/services/border/border.service";
 import { convertToObject } from "../../../components/helper/convertToObject";
+import { DateFormat } from "../../../components/helper/dateFormat";
 
 const PaymentReport = () => {
   const [pageIndex, setPageIndex] = useState(1);
@@ -20,7 +21,7 @@ const PaymentReport = () => {
       borderObject: convertToObject(data?.data),
     }),
   });
-  const { data: paymentReport, isError, isLoading } = useGetPaymentQuery();
+  const { data: paymentReport, isError, isLoading } = useGetPaymentQuery(value);
 
   const data = useMemo(() => paymentReport || [], [paymentReport]);
 
@@ -30,7 +31,17 @@ const PaymentReport = () => {
         header: "SI",
         cell: (info) => info.row.index + 1,
       },
-      { accessorKey: "createdAt", header: "Date" },
+      {
+        accessorKey: "createdAt",
+        header: "Date",
+        cell: ({ row }) => {
+          return (
+            <>
+              {DateFormat({ date: row?.original?.createdAt, showTime: true })}
+            </>
+          );
+        },
+      },
       {
         accessorKey: "border",
         header: "Border",
@@ -115,27 +126,6 @@ const PaymentReport = () => {
                 }
               }}
               className="outline-none w-full"
-            />
-          </div>
-
-          <div className="flex items-center gap-2 border rounded-lg px-3 py-1.5 shadow-sm">
-            <FaCalendarAlt className="" />
-            <input
-              type="date"
-              //   value={dateRange.from}
-              //   onChange={(e) =>
-              //     setDateRange((prev) => ({ ...prev, from: e.target.value }))
-              //   }
-              className="outline-none"
-            />
-            <span>-</span>
-            <input
-              type="date"
-              //   value={dateRange.to}
-              //   onChange={(e) =>
-              //     setDateRange((prev) => ({ ...prev, to: e.target.value }))
-              //   }
-              className="outline-none"
             />
           </div>
         </div>
